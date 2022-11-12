@@ -27,7 +27,38 @@ export default class Ball {
         ctx.fillStyle = this.color;
         ctx.fill()
         ctx.stroke()
+    }
 
+    reflection(normal) {
+        return this.velocity.sub(normal.normalize().mul(2 * this.velocity.dot(normal.normalize())));
+    }
 
+    checkCollision(objects) {
+        objects.forEach(o => {
+            if (o === this) return;
+            let result = {isCollide: false};
+            if (o.name === "wall") {
+                result = this.checkCollisionCircleWall(o);
+            }
+            if (result.isCollide) {
+                this.velocity = this.reflection(result.normal);
+            }
+        })
+    }
+
+    checkCollisionCircleWall(wall) {
+        let dot = this.position.dot(wall.normal);
+        let distance = dot - wall.distance;
+        let closestPoint = this.position.sub(wall.normal.mul(distance));
+        let distSq = this.position.sub(closestPoint).lenSqt();
+        if (distSq < this.radius * this.radius) {
+            return {
+                isCollide: true,
+                normal: wall.normal
+            }
+        }
+        return {
+            isCollide: false
+        }
     }
 }
