@@ -28,6 +28,8 @@ class Main {
         this.objects.push(obj);
     }
 
+    energy = 0;
+
     loop() {
         if (this.lastTime != null) {
             let deltaTime = (Date.now() - this.lastTime) / 1000;
@@ -40,15 +42,19 @@ class Main {
             this.objects.forEach(o => o.checkCollision(this.objects));
             this.objects.forEach(o => o.draw(this.ctx));
             this.objects.forEach(o => o.drawUtils(this.ctx));
+            let energy = 0;
+            this.objects.forEach((o) => energy += o.calcEnergy())
+            console.log(energy - this.energy)
+            this.energy = energy;
         }
-
         this.lastTime = Date.now()
         requestAnimationFrame(() => this.loop());
     }
 }
 
 let main = new Main();
-main.addObject(new Ball(new Vector2(0, main.height/2-40), 40, "red", new Vector2(0,0)))
+main.addObject(new Ball(10, new Vector2(0, -200), 40, "red", new Vector2(0, 80)))
+main.addObject(new Ball(20, new Vector2(0, 0), 80, "blue", new Vector2(0, 0)))
 main.addObject(new Wall(main.width / 2, new Vector2(-1, 0)))
 main.addObject(new Wall(main.width / 2, new Vector2(1, 0)))
 main.addObject(new Wall(main.height / 2, new Vector2(0, 1)))

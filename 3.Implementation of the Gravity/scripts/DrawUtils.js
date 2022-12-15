@@ -1,4 +1,5 @@
 function drawVector(ctx, startPos, vector, color) {
+    if (vector.len() === 0) return;
     let headLen = 10;
     let endPoint = startPos.add(vector);
     let angle = Math.atan2(vector.y, vector.x);
