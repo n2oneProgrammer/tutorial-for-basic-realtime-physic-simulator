@@ -28,6 +28,12 @@ export default class Vector2 {
         return Math.sqrt(this.lenSqt());
     }
 
+    project(dir) {
+        let dot = this.dot(dir);
+        let lenSq = dir.lenSqt();
+        return dir.mul(dot / lenSq);
+    }
+
     normalize() {
         let len = this.len();
         return new Vector2(this.x / len, this.y / len);

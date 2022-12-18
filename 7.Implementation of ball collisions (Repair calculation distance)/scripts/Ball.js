@@ -22,7 +22,7 @@ export default class Ball {
     }
 
     update(deltaTime) {
-        this.position = this.position.add(this.velocity.mul(deltaTime));
+        this.position = this.position.add(this.velocity.mul(deltaTime).add(main.gravity.mul(deltaTime * deltaTime / 2)));
         this.velocity = this.velocity.add(main.gravity.mul(deltaTime));
         this.lastVelocity = this.velocity;
     }
@@ -74,7 +74,7 @@ export default class Ball {
             }
         })
     }
-z
+
     checkCollisionCircleCircle(circle) {
         let distanceVector = circle.position.sub(this.position);
         if (distanceVector.lenSqt() > (this.radius + circle.radius) * (this.radius + circle.radius)) {
